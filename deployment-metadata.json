@@ -1,0 +1,144 @@
+{
+    "version": 1,
+    "samplesPerInference": 200,
+    "axesCount": 3,
+    "classes": [
+        "Circular",
+        "Left_Right",
+        "Still",
+        "Up_Down"
+    ],
+    "deployCounter": 1,
+    "folders": {
+        "input": "/home/input",
+        "output": "/home/output"
+    },
+    "frequency": 100,
+    "impulse": {
+        "inputBlocks": [
+            {
+                "id": 1,
+                "type": "time-series",
+                "name": "Time series",
+                "title": "Time series data",
+                "padZeros": true,
+                "windowSizeMs": 2000,
+                "windowIncreaseMs": 200,
+                "frequencyHz": 100,
+                "createdBy": "createImpulse",
+                "createdAt": "2024-11-22T14:43:18.003Z"
+            }
+        ],
+        "dspBlocks": [
+            {
+                "id": 2,
+                "type": "syntiant-imu",
+                "name": "Syntiant IMU",
+                "axes": [
+                    "accX",
+                    "accY",
+                    "accZ"
+                ],
+                "title": "IMU (Syntiant)",
+                "input": 1,
+                "implementationVersion": 1,
+                "createdBy": "createImpulse",
+                "createdAt": "2024-11-22T14:43:18.003Z",
+                "metadata": {
+                    "created": "2024-11-22T14:46:43.204Z",
+                    "dspConfig": {
+                        "options": {
+                            "scaling": true,
+                            "scaling_raw": false,
+                            "padding": true
+                        },
+                        "calculateFeatureImportance": false
+                    },
+                    "labels": [
+                        "Circular",
+                        "Left_Right",
+                        "Still",
+                        "Up_Down"
+                    ],
+                    "valuesPerAxis": 202.66666666666666,
+                    "windowCount": 1312,
+                    "featureCount": 608,
+                    "windowSizeMs": 2000,
+                    "windowIncreaseMs": 200,
+                    "frequency": 100,
+                    "padZeros": true,
+                    "outputConfig": {
+                        "type": "flat",
+                        "shape": {
+                            "width": 608
+                        }
+                    },
+                    "fftUsed": [],
+                    "includeEmptyLabels": false,
+                    "inputShape": [
+                        600
+                    ],
+                    "includedSamplesAreInOrder": true,
+                    "resamplingAlgorithmVersion": 2
+                }
+            }
+        ],
+        "learnBlocks": [
+            {
+                "id": 3,
+                "type": "keras",
+                "name": "Classifier",
+                "dsp": [
+                    2
+                ],
+                "title": "Classification",
+                "createdBy": "createImpulse",
+                "createdAt": "2024-11-22T14:43:18.003Z"
+            }
+        ]
+    },
+    "project": {
+        "name": "Sandeep_Reddy-project-1",
+        "id": 564723,
+        "owner": "Sandeep Reddy Modugu",
+        "apiKey": "ei_d5d6df556472b996e85b2535d71838ce43e9a64e852eeea0dc6c298193f4e725",
+        "studioHost": "studio.edgeimpulse.com"
+    },
+    "sensor": "accelerometer",
+    "tfliteModels": [
+        {
+            "arenaSize": 4230,
+            "inputFrameSize": 608,
+            "inputTensor": "dense_input",
+            "outputTensor": "y_pred/Softmax:0",
+            "details": {
+                "modelType": "int8",
+                "inputs": [
+                    {
+                        "dataType": "int8",
+                        "name": "serving_default_x:0",
+                        "shape": [
+                            1,
+                            608
+                        ],
+                        "quantizationScale": 0.00888480432331562,
+                        "quantizationZeroPoint": -13
+                    }
+                ],
+                "outputs": [
+                    {
+                        "dataType": "int8",
+                        "name": "StatefulPartitionedCall:0",
+                        "shape": [
+                            1,
+                            4
+                        ],
+                        "quantizationScale": 0.00390625,
+                        "quantizationZeroPoint": -128
+                    }
+                ]
+            },
+            "modelPath": "/home/input/trained.tflite"
+        }
+    ]
+}
